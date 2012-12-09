@@ -38,6 +38,29 @@
 <h3>Download</h3>
 
 <p>The source code will be published soon but you can download the compiled documents before. Click <a href="https://github.com/downloads/Benestar/DotNetDataBot/DotNetDataBot.zip">here</a> to get the package. After unpacking it you can see a file called <code>DotNetDataBot.dll</code> and one called <code>DotNetDataBot.xml</code>. The xml document is only for documentation. To use it you have to create a new refer in your project. Then you can write <code>using DotNetDataBot;</code> to import the framework.</p>
+
+<h3>Example</h3>
+
+<p>Here is a short example how you can use DotNetData framework:</p>
+
+<pre><code>using DotNetDataBot;
+
+namespace MyBot
+{
+    class Example
+    {
+        public static void Main(string[] args)
+        {
+            Site site = new Site("http://www.wikidata.org", "username", "password"); // replace username and password with you bot's login data
+            Item item = new Item(site, "Q1000");
+            item.setSiteLink("en", "Earth"); // sets the sitelink
+
+            Item newItem = new Item(site);
+            newItem.createItem("en", "Wikidata", "database for collecting interwikilinks"); // creates a new item
+        }
+    }
+}
+</code></pre>
       </section>
     </div>
 
