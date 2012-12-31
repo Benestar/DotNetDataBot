@@ -1,4 +1,4 @@
-﻿// DotNetDataBot Framework 1.0 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
+﻿// DotNetDataBot Framework 1.1 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
 // Distributed under the terms of the MIT (X11) license: http://www.opensource.org/licenses/mit-license.php
 // Copyright © Bene* at http://www.wikidata.org (2012)
 
@@ -69,12 +69,18 @@ namespace DotNetDataBot.Helpers
         /// </summary>
         /// <param name="aliases">The aliases</param>
         /// <returns>Aliases in Json format</returns>
-        public string getJsonAliases(Dictionary<string, string> aliases)
+        public string getJsonAliases(Dictionary<string, List<string>> aliases)
         {
             string data = "\"aliases\":{";
-            foreach (KeyValuePair<string, string> pair in aliases)
+            foreach (KeyValuePair<string, List<string>> pair in aliases)
             {
-                data += "\"" + pair.Key + "\":{\"language\":\"" + pair.Key + "\",\"value\":\"" + pair.Value + "\"},";
+                string aliasesData = "";
+                foreach (string alias in pair.Value)
+                {
+                    aliasesData += alias + "|";
+                }
+                aliasesData = aliasesData.Remove(aliasesData.Length - 1);
+                data += "\"" + pair.Key + "\":{\"language\":\"" + pair.Key + "\",\"value\":\"" + aliasesData + "\"},";
             }
             data = data.Remove(data.LastIndexOf(","));
             data += "}";
