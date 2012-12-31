@@ -7,6 +7,7 @@
     <meta name="description" content="DotNetDataBot : Extension of DotNetWikiBot framework for Wikibase extension of Mediawiki" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/csharp.css">
 
     <title>DotNetDataBot</title>
   </head>
@@ -20,6 +21,7 @@
 
           <h1 id="project_title">DotNetDataBot</h1>
           <h2 id="project_tagline">Extension of DotNetWikiBot framework for Wikibase extension of Mediawiki</h2>
+		  <p>version 1.1</p>
 			
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/Benestar/DotNetDataBot/zipball/master">Download this project as a .zip file</a>
@@ -38,7 +40,7 @@
 
 <h3 id="download">Download</h3>
 
-<p>The source code will be published soon but you can download the compiled documents before. Click <a href="https://github.com/downloads/Benestar/DotNetDataBot/DotNetDataBot.zip">here</a> to get the package. By downloading you make sure that you agree with the <a href="#license">license</a> of this software. After unpacking it you can see a file called <code>DotNetDataBot.dll</code> and one called <code>DotNetDataBot.xml</code>. The xml document is only for documentation. To use it you have to create a new refer in your project. Then you can write <code>using DotNetDataBot;</code> to import the framework.</p>
+<p>If you want to have a look at the source code, go to <a href="https://github.com/Benestar/DotNetDataBot">DotNetDataBot on GitHub</a>. You can also download the compiled binaryfiles. Click <a href="https://github.com/downloads/Benestar/DotNetDataBot/DotNetDataBot.zip">here</a> to get the package. By downloading you make sure that you agree with the <a href="#license">license</a> of this software. After unpacking it you can see a file called <code>DotNetDataBot.dll</code> and one called <code>DotNetDataBot.xml</code>. The xml document is only for documentation. To use it you have to create a new refer in your project. Then you can write <code>using DotNetDataBot;</code> to import the framework.</p>
 
 <a href="https://github.com/Benestar/DotNetDataBot/blob/master/bin/DotNetDataBot.zip?raw=true">
 <div class="zip_download_link" style="margin-left: auto; margin-right: auto; float:none;">Download the compiled files as a .zip file</div>
@@ -48,20 +50,32 @@
 
 <p>Here is a short example how you can use DotNetData framework:</p>
 
-<pre><code>using DotNetDataBot;
+<pre><code><span class="key">using</span> DotNetDataBot;
 
-namespace MyBot
+<span class="key">namespace</span> MyBot
 {
-    class Example
+    <span class="key">class</span> <span class="class">Example</span>
     {
-        public static void Main(string[] args)
+        <span class="key">public static void</span> Main(<span class="key">string</span>[] args)
         {
-            Site site = new Site("http://www.wikidata.org", "username", "password"); // replace username and password with you bot's login data
-            Item item = new Item(site, "Q1000");
-            item.setSiteLink("en", "Earth"); // sets the sitelink
+            <span class="class">Site</span> site = <span class="key">new</span> <span class="class">Site</span>(<span class="string">"http://www.wikidata.org"</span>, <span class="string">"username"</span>, <span class="string">"#####"</span>); <span class="comment">// your user info</span>
 
-            Item newItem = new Item(site);
-            newItem.createItem("en", "Wikidata", "database for collecting interwikilinks"); // creates a new item
+            <span class="comment">// Edit an existing item</span>
+            <span class="class">Item</span> item = <span class="key">new</span> <span class="class">Item</span>(site, <span class="string">"Q2"</span>);
+            item.setSiteLink(<span class="sting">"en"</span>, <span class="string">"Earth"</span>);    <span class="comment">// set sitelink for item Q2</span>
+            item.lang = <span class="string">"en"</span>;                   <span class="comment">// set the language for working to en</span>
+            item.setLabel(<span class="string">"Earth"</span>);             <span class="comment">// set the label (same to item.setLabel("en", "Earth");)</span>
+            item.setDescription(<span class="string">"planet"</span>);      <span class="comment">// set the description</span>
+            System.Collections.Generic.<span class="class">List</span>&lt;<span class="key">string</span>&gt; aliases
+                = <span class="key">new</span> System.Collections.Generic.<span class="class">List</span>&lt;<span class="key">string</span>&gt;();
+                                                <span class="comment">// create list for aliases</span>
+            aliases.Add(<span class="string">"Terra"</span>);
+            aliases.Add(<span class="string">"the Blue Planet"</span>);
+            item.setAliases(aliases);           <span class="comment">// set the aliases</span>
+
+            <span class="comment">// create a new item</span>
+            <span class="class">Item</span> newItem = <span class="key">new</span> <span class="class">Item</span>(site);
+            newItem.createItem(<span class="string">"en"</span>, <span class="class">"Wikidata"</span>, <span class="class">"Wikidata"</span>, <span class="class">"database for collecting interwikilinks"</span>);
         }
     }
 }

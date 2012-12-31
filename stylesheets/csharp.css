@@ -1,0 +1,12 @@
+pre .key {
+	color: blue;
+}
+pre .class {
+	color: #007EDF;
+}
+pre .string {
+	color: darkred;
+}
+pre .comment {
+	color: darkgreen;
+}

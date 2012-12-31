@@ -292,6 +292,10 @@ Full-Width Styles
   border-bottom-right-radius: 2px;
 }
 
+#forkme_banner:hover {
+	background: url('../images/blacktocat.png') #777 no-repeat 95% 50%;
+}
+
 #header_wrap {
   background: #212121;
   background: -moz-linear-gradient(top, #373737, #212121);
@@ -303,6 +307,7 @@ Full-Width Styles
 
 #header_wrap .inner {
   padding: 50px 10px 30px 10px;
+  color: white;
 }
 
 #project_title {
