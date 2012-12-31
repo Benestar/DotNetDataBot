@@ -1,12 +1,15 @@
-pre .key {
+pre.csharp {
+	font-family: Consolas, 'Courier New', monospace;
+}
+.csharp .key {
 	color: blue;
 }
-pre .class {
+.csharp .class {
 	color: #007EDF;
 }
-pre .string {
+.csharp .string {
 	color: darkred;
 }
-pre .comment {
+.csharp .comment {
 	color: darkgreen;
 }

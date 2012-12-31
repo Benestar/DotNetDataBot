@@ -46,7 +46,7 @@
 			</a>
 			<h3 id="example">Example</h3>
 			<p>Here is a short example how you can use DotNetData framework:</p>
-			<pre><code style="font-family: Consolas, 'Courier New', monospace;"><span class="key">using</span> DotNetDataBot;
+			<pre class="csharp"><span class="key">using</span> DotNetDataBot;
 
 <span class="key">namespace</span> MyBot
 {
@@ -58,7 +58,7 @@
 
             <span class="comment">// Edit an existing item</span>
             <span class="class">Item</span> item = <span class="key">new</span> <span class="class">Item</span>(site, <span class="string">"Q2"</span>);
-            item.setSiteLink(<span class="sting">"en"</span>, <span class="string">"Earth"</span>);    <span class="comment">// set sitelink for item Q2</span>
+            item.setSiteLink(<span class="string">"en"</span>, <span class="string">"Earth"</span>);    <span class="comment">// set sitelink for item Q2</span>
             item.lang = <span class="string">"en"</span>;                   <span class="comment">// set the language for working to en</span>
             item.setLabel(<span class="string">"Earth"</span>);             <span class="comment">// set the label (same to item.setLabel("en", "Earth");)</span>
             item.setDescription(<span class="string">"planet"</span>);      <span class="comment">// set the description</span>
@@ -75,7 +75,7 @@
         }
     }
 }
-</code></pre>
+</pre>
 			<h3 id="references">References</h3>
 			<p>
 				This framework was originally created for <a href="http://www.wikidata.org/wiki/User:BeneBot*">User:BeneBot*</a>. If you have any questions, you can also ask them at the bot's userpage.
