@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="description" content="DotNetDataBot : Extension of DotNetWikiBot framework for Wikibase extension of Mediawiki" />
+		<meta name="keywords" content="DotNetDataBot, DotNetWikiBot, Wikibase, Wikidata, Benestar" />
+		<meta name="robots" content="index, follow, noarchive" />
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="DotNetDataBot : Extension of DotNetWikiBot framework for Wikibase extension of Mediawiki" />
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/csharp.css">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-	<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/csharp.css">
-
-    <title>DotNetDataBot</title>
-  </head>
-
-  <body>
-
+		<title>DotNetDataBot</title>
+	</head>
+	<body>
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
@@ -22,12 +22,10 @@
           <h1 id="project_title">DotNetDataBot</h1>
           <h2 id="project_tagline">Extension of DotNetWikiBot framework for Wikibase extension of Mediawiki</h2>
 		  <p>version 1.1</p>
-			
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/Benestar/DotNetDataBot/zipball/master">Download this project as a .zip file</a>
               <a class="tar_download_link" href="https://github.com/Benestar/DotNetDataBot/tarball/master">Download this project as a tar.gz file</a>
             </section>
-			
         </header>
     </div>
 
@@ -35,22 +33,20 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h2 id="welcome">Welcome to the documentation of DotNetDataBot</h2>
-
-<p>DotNetDataBot is an extension of <a href="http://dotnetwikibot.sourceforge.net/">DotNetWikiBot</a> to fit to <a href="https://www.mediawiki.org/wiki/Extension:Wikibase">Wikibase</a>, an extension of <a href="https://www.mediawiki.org/">MediaWiki</a>. It is written in <a href="http://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29">C#</a> and runs on <a href="http://msdn.microsoft.com/en-us/vstudio/aa496123.aspx">.NET Framework</a> 2.0 and higher.</p>
-
-<h3 id="download">Download</h3>
-
-<p>If you want to have a look at the source code, go to <a href="https://github.com/Benestar/DotNetDataBot">DotNetDataBot on GitHub</a>. You can also download the compiled binaryfiles. Click <a href="https://github.com/downloads/Benestar/DotNetDataBot/DotNetDataBot.zip">here</a> to get the package. By downloading you make sure that you agree with the <a href="#license">license</a> of this software. After unpacking it you can see a file called <code>DotNetDataBot.dll</code> and one called <code>DotNetDataBot.xml</code>. The xml document is only for documentation. To use it you have to create a new refer in your project. Then you can write <code>using DotNetDataBot;</code> to import the framework.</p>
-
-<a href="https://github.com/Benestar/DotNetDataBot/blob/master/bin/DotNetDataBot.zip?raw=true">
-<div class="zip_download_link" style="margin-left: auto; margin-right: auto; float:none;">Download the compiled files as a .zip file</div>
-<div style="text-align: center;">Download now</div></a>
-		
-<h3 id="example">Example</h3>
-
-<p>Here is a short example how you can use DotNetData framework:</p>
-
-<pre><code><span class="key">using</span> DotNetDataBot;
+		<p>
+			DotNetDataBot is an extension of <a href="http://dotnetwikibot.sourceforge.net/">DotNetWikiBot</a> to fit to <a href="https://www.mediawiki.org/wiki/Extension:Wikibase">Wikibase</a>, an extension of <a href="https://www.mediawiki.org/">MediaWiki</a>. It is written in <a href="http://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29">C#</a> and runs on <a href="http://msdn.microsoft.com/en-us/vstudio/aa496123.aspx">.NET Framework</a> 2.0 and higher.
+		</p>
+		<h3 id="download">Download</h3>
+			<p>
+				If you want to have a look at the source code, go to <a href="https://github.com/Benestar/DotNetDataBot">DotNetDataBot on GitHub</a>. You can also download the compiled binaryfiles. Click <a href="https://github.com/downloads/Benestar/DotNetDataBot/DotNetDataBot.zip">here</a> to get the package. By downloading you make sure that you agree with the <a href="#license">license</a> of this software. After unpacking it you can see a file called <code>DotNetDataBot.dll</code> and one called <code>DotNetDataBot.xml</code>. The xml document is only for documentation. To use it you have to create a new refer in your project. Then you can write <code>using DotNetDataBot;</code> to import the framework.
+			</p>
+			<a href="https://github.com/Benestar/DotNetDataBot/blob/master/bin/DotNetDataBot.zip?raw=true">
+				<div class="zip_download_link" style="margin-left: auto; margin-right: auto; float:none;">Download the compiled files as a .zip file</div>
+				<p style="text-align: center;">Download now</p>
+			</a>
+			<h3 id="example">Example</h3>
+			<p>Here is a short example how you can use DotNetData framework:</p>
+			<pre><code style="font-family: Consolas, 'Courier New', monospace;"><span class="key">using</span> DotNetDataBot;
 
 <span class="key">namespace</span> MyBot
 {
@@ -75,47 +71,56 @@
 
             <span class="comment">// create a new item</span>
             <span class="class">Item</span> newItem = <span class="key">new</span> <span class="class">Item</span>(site);
-            newItem.createItem(<span class="string">"en"</span>, <span class="class">"Wikidata"</span>, <span class="class">"Wikidata"</span>, <span class="class">"database for collecting interwikilinks"</span>);
+            newItem.createItem(<span class="string">"en"</span>, <span class="string">"Wikidata"</span>, <span class="string">"Wikidata"</span>, <span class="string">"database for collecting interwikilinks"</span>);
         }
     }
 }
 </code></pre>
-
-<h3 id="references">References</h3>
-
-<p>This framework was originally created for <a href="http://www.wikidata.org/wiki/User:BeneBot*">User:BeneBot*</a>. If you have any questions, you can also ask them at the bot's userpage.</p>
-
-<h3 id="license">Licence</h3>
-
-<p><strong>DotNetWikiBot</strong> Framework is available under The <em>MIT License</em> (also called <em>X11 license</em>). Below is the text of the license.</p>
-
-<hr><ul>
-<li>Copyright © <strong>Iaroslav Vassiliev</strong> (2006-2012) &lt;codedriller [at] gmail [dot] com&gt;</li>
-</ul><blockquote>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-</blockquote>
-
-<p>The extension <strong>DotNetDataBot</strong> is available under the same license with copyright:</p>
-
-<ul>
-<li>Copyright © <strong>Bene</strong>* at <a href="http://www.wikidata.org">http://www.wikidata.org</a> (2012)</li>
-</ul>
+			<h3 id="references">References</h3>
+			<p>
+				This framework was originally created for <a href="http://www.wikidata.org/wiki/User:BeneBot*">User:BeneBot*</a>. If you have any questions, you can also ask them at the bot's userpage.
+			</p>
+			<h3 id="license">Licence</h3>
+			<p>
+				<strong>DotNetWikiBot</strong> Framework is available under The <em>MIT License</em> (also called <em>X11 license</em>). Below is the text of the license.
+			</p>
+			<hr />
+			<ul>
+				<li>
+					Copyright © <strong>Iaroslav Vassiliev</strong> (2006-2012) &lt;codedriller [at] gmail [dot] com&gt;
+				</li>
+			</ul>
+			<blockquote>
+				<p>
+					Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+				</p>
+				<p>
+					The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+				</p>
+				<p>
+					THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+				</p>
+			</blockquote>
+			<p>
+				The extension <strong>DotNetDataBot</strong> is available under the same license with copyright:
+			</p>
+			<ul>
+				<li>
+					Copyright © <strong>Bene</strong>* at <a href="http://www.wikidata.org">http://www.wikidata.org</a> (2012)
+				</li>
+			</ul>
       </section>
     </div>
-
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">DotNetDataBot maintained by <a href="https://github.com/Benestar">Benestar</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p class="copyright">
+			DotNetDataBot maintained by <a href="https://github.com/Benestar">Benestar</a>
+		</p>
+        <p>
+			Published with <a href="http://pages.github.com">GitHub Pages</a>
+		</p>
       </footer>
     </div>
-
-    
-
   </body>
 </html>
