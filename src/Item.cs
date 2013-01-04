@@ -1,4 +1,4 @@
-﻿// DotNetDataBot Framework 1.1 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
+﻿// DotNetDataBot Framework 1.2 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
 // Distributed under the terms of the MIT (X11) license: http://www.opensource.org/licenses/mit-license.php
 // Copyright © Bene* at http://www.wikidata.org (2012)
 
@@ -18,6 +18,7 @@ namespace DotNetDataBot
     /// <summary>
     /// Class for items
     /// </summary>
+    [Serializable]
     public class Item
     {
         #region variables
@@ -110,7 +111,7 @@ namespace DotNetDataBot
         {
             getEditSessionData();
             string result = site.PostDataAndGetResultHTM(site.site + site.indexPath + "api.php?action=wbeditentity&format=xml",
-                string.Format("token={0}&data=%7B%7D", HttpUtility.UrlEncode(editSessionToken)));
+                string.Format("token={0}&bot=bot&data=%7B%7D", HttpUtility.UrlEncode(editSessionToken)));
 
             this.id = getId(result);
         }
@@ -399,7 +400,7 @@ namespace DotNetDataBot
 
             getEditSessionData();
             string postData = string.Format(
-                "id={0}&token={1}&linksite={2}wiki&linktitle={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, title, summary);
+                "id={0}&token={1}&bot=bot&linksite={2}wiki&linktitle={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, title, summary);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetsitelink&format=xml", postData);
@@ -442,7 +443,7 @@ namespace DotNetDataBot
             string data = JsonParser.getJsonLinks(links);
 
             string postData = string.Format(
-                "id={0}&token={1}&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
+                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
 
@@ -493,7 +494,7 @@ namespace DotNetDataBot
 
             getEditSessionData();
             string postData = string.Format(
-                "id={0}&token={1}&language={2}&value={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, label, summary);
+                "id={0}&token={1}&bot=bot&language={2}&value={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, label, summary);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetlabel&format=xml", postData);
@@ -536,7 +537,7 @@ namespace DotNetDataBot
             string data = JsonParser.getJsonLabels(labels);
 
             string postData = string.Format(
-                "id={0}&token={1}&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
+                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
 
@@ -587,7 +588,7 @@ namespace DotNetDataBot
 
             getEditSessionData();
             string postData = string.Format(
-                "id={0}&token={1}&language={2}&value={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, description, summary);
+                "id={0}&token={1}&bot=bot&language={2}&value={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, description, summary);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetdescription&format=xml", postData);
@@ -630,7 +631,7 @@ namespace DotNetDataBot
             string data = JsonParser.getJsonDescriptions(descriptions);
 
             string postData = string.Format(
-                "id={0}&token={1}&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
+                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
 
@@ -752,7 +753,7 @@ namespace DotNetDataBot
             }
             aliasesData = aliasesData.Remove(aliasesData.Length - 1);
             string postData = string.Format(
-                "id={0}&token={1}&language={2}&{3}={4}&summary={5}", id, HttpUtility.UrlEncode(editSessionToken), lang, action, aliasesData, summary);
+                "id={0}&token={1}&bot=bot&language={2}&{3}={4}&summary={5}", id, HttpUtility.UrlEncode(editSessionToken), lang, action, aliasesData, summary);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetaliases&format=xml", postData);
@@ -809,7 +810,7 @@ namespace DotNetDataBot
             string data = JsonParser.getJsonAliases(aliases);
 
             string postData = string.Format(
-                "id={0}&token={1}&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
+                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
 
