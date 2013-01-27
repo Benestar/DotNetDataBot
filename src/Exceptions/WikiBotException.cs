@@ -2,7 +2,7 @@
 // Distributed under the terms of the MIT (X11) license: http://www.opensource.org/licenses/mit-license.php
 // Copyright (c) Iaroslav Vassiliev (2006-2012) codedriller@gmail.com
 
-// DotNetDataBot Framework 1.2 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
+// DotNetDataBot Framework 1.3 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
 // Distributed under the terms of the MIT (X11) license: http://www.opensource.org/licenses/mit-license.php
 // Copyright © Bene* at http://www.wikidata.org (2012)
 
@@ -32,20 +32,24 @@ namespace DotNetDataBot.Exceptions
     {
         /// <summary>Just overriding default constructor.</summary>
         /// <returns>Returns Exception object.</returns>
-        public WikiBotException() { }
+        public WikiBotException() : base() { }
+
         /// <summary>Just overriding constructor.</summary>
         /// <returns>Returns Exception object.</returns>
         public WikiBotException(string message)
-            : base(message) { Console.Beep(); /*Console.ForegroundColor = ConsoleColor.Red;*/ }
+            : base(message) { /*Console.Beep(); Console.ForegroundColor = ConsoleColor.Red;*/ }
+
         /// <summary>Just overriding constructor.</summary>
         /// <returns>Returns Exception object.</returns>
         public WikiBotException(string message, System.Exception inner)
             : base(message, inner) { }
+
         /// <summary>Just overriding constructor.</summary>
         /// <returns>Returns Exception object.</returns>
         protected WikiBotException(System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
+
         /// <summary>Destructor is invoked automatically when exception object becomes
         /// inaccessible.</summary>
         ~WikiBotException() { }

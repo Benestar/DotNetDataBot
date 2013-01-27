@@ -1,4 +1,4 @@
-﻿// DotNetDataBot Framework 1.2 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
+﻿// DotNetDataBot Framework 1.3 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
 // Distributed under the terms of the MIT (X11) license: http://www.opensource.org/licenses/mit-license.php
 // Copyright © Bene* at http://www.wikidata.org (2012)
 
@@ -109,23 +109,7 @@ namespace DotNetDataBot
         /// </summary>
         public void createItem()
         {
-            getEditSessionData();
-            string result = site.PostDataAndGetResultHTM(site.site + site.indexPath + "api.php?action=wbeditentity&format=xml",
-                string.Format("token={0}&bot=bot&data=%7B%7D", HttpUtility.UrlEncode(editSessionToken)));
-
-            this.id = getId(result);
-        }
-
-        /// <summary>
-        /// Creates a new item with the label and description in the item's current language.
-        /// </summary>
-        /// <see cref="lang"/>
-        /// <param name="link">The sitelink</param>
-        /// <param name="label">The label</param>
-        /// <param name="description">The description</param>
-        public void createItem(string link, string label, string description)
-        {
-            createItem(this.lang, link, label, description);
+            createItem(new Dictionary<string, string>(), new Dictionary<string, string>(), new Dictionary<string, string>(), "Bot");
         }
 
         /// <summary>
@@ -137,10 +121,25 @@ namespace DotNetDataBot
         /// <param name="description">The description</param>
         public void createItem(string lang, string link, string label, string description)
         {
-            createItem();
-            setSiteLink(lang, link);
-            setLabel(lang, label);
-            setDescription(lang, description);
+            createItem(lang, link, label, description, "Bot");
+        }
+        
+        /// <summary>
+        /// Creates a new item with the label and description in the given language.
+        /// </summary>
+        /// <param name="lang">The language</param>
+        /// <param name="link">The sitelink</param>
+        /// <param name="label">The label</param>
+        /// <param name="description">The description</param>
+        /// <param name="summary">The summary</param>
+        public void createItem(string lang, string link, string label, string description, string summary)
+        {
+            createItem(
+                new Dictionary<string, string> { { lang, link } },
+                new Dictionary<string, string> { { lang, label } },
+                new Dictionary<string, string> { { lang, description } },
+                summary
+            );
         }
 
         /// <summary>
@@ -151,7 +150,7 @@ namespace DotNetDataBot
         /// <param name="summary">The summary of this edit.</param>
         public void createItem(Dictionary<string, string> links, string summary)
         {
-            Dictionary<string, string> labels = null;// new Dictionary<string, string>();
+            Dictionary<string, string> labels = null; // new Dictionary<string, string>();
             createItem(links, labels, summary);
         }
 
@@ -164,7 +163,7 @@ namespace DotNetDataBot
         /// <param name="summary"></param>
         public void createItem(Dictionary<string, string> links, Dictionary<string, string> labels, string summary)
         {
-            Dictionary<string, string> descriptions = null;// new Dictionary<string, string>();
+            Dictionary<string, string> descriptions = null; // new Dictionary<string, string>();
             createItem(links, labels, descriptions, summary);
         }
 
@@ -178,7 +177,7 @@ namespace DotNetDataBot
         /// <param name="summary"></param>
         public void createItem(Dictionary<string, string> links, Dictionary<string, string> labels, Dictionary<string, string> descriptions, string summary)
         {
-            Dictionary<string, List<string>> aliases = null;// new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> aliases = null; // new Dictionary<string, List<string>>();
             createItem(links, labels, descriptions, aliases, summary);
         }
 
@@ -202,23 +201,30 @@ namespace DotNetDataBot
                 }
                 else
                 {
-                    string data = "{" + JsonParser.getJsonLinks(links);
+                    string itemData = "{" + JsonParser.getJsonLinks(links);
                     if (labels != null && labels.Count > 0)
                     {
-                        data += ", " + JsonParser.getJsonLabels(labels);
+                        itemData += ", " + JsonParser.getJsonLabels(labels);
                     }
                     if (descriptions != null && descriptions.Count > 0)
                     {
-                        data += ", " + JsonParser.getJsonDescriptions(descriptions);
+                        itemData += ", " + JsonParser.getJsonDescriptions(descriptions);
                     }
                     if (aliases != null && aliases.Count > 0)
                     {
-                        data += ", " + JsonParser.getJsonAliases(aliases);
+                        itemData += ", " + JsonParser.getJsonAliases(aliases);
                     }
-                    data += "}";
+                    itemData += "}";
 
-                    string postData = string.Format(
-                        "token={0}&bot=bot&data={1}&summary={2}", HttpUtility.UrlEncode(editSessionToken), HttpUtility.UrlEncode(data), HttpUtility.UrlEncode(summary));
+                    Dictionary<string, string> data = new Dictionary<string, string> {
+                        { "token", editSessionToken },
+                        { "bot", "bot" },
+                        { "data", itemData },
+                        { "summary", summary }
+                    };
+
+                    string postData = getPostData(data);
+
                     string respStr = site.PostDataAndGetResultHTM(
                         site.site + site.indexPath + "api.php?action=wbeditentity&format=xml", postData);
 
@@ -227,6 +233,8 @@ namespace DotNetDataBot
                     this.labels = labels;
                     this.descriptions = descriptions;
                     this.aliases = aliases;
+
+                    Console.WriteLine("Item Q" + id + " created successfully.");
                 }
             }
             catch (Exception ex)
@@ -236,7 +244,7 @@ namespace DotNetDataBot
         }
         
         #endregion
-
+ 
         #region loading
 
         /// <summary>
@@ -244,8 +252,10 @@ namespace DotNetDataBot
         /// </summary>
         public void Load()
         {
+            if (this.id == 0)
+                throw new ArgumentNullException("id", "The id must be set to load the item.");
             string respStr = site.PostDataAndGetResultHTM(
-                site.site + site.indexPath + "api.php?action=wbgetentities&format=xml&ids=Q" + id, "");
+                site.site + site.indexPath + "api.php?action=wbgetentities&format=xml&ids=" + HttpUtility.UrlEncode("Q" + id), "");
 
             if (isError(respStr))
             {
@@ -345,6 +355,7 @@ namespace DotNetDataBot
                         break;
                 }
             }
+            Console.WriteLine("Item Q" + id + " loaded succesfully.");
         }
 
         private void getEditSessionData()
@@ -399,8 +410,17 @@ namespace DotNetDataBot
                 throw new ArgumentNullException("title");
 
             getEditSessionData();
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&linksite={2}wiki&linktitle={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, title, summary);
+
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "linksite", lang + "wiki" },
+                { "linktitle", title },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetsitelink&format=xml", postData);
@@ -419,7 +439,7 @@ namespace DotNetDataBot
                 this.links.Add(lang, title);
             }
 
-            Console.WriteLine("‎Changed [" + lang + "] sitelink: " + title);
+            Console.WriteLine("‎Changed [" + lang + "] site link: " + title);
         }
 
         /// <summary>
@@ -440,12 +460,20 @@ namespace DotNetDataBot
         {
             getEditSessionData();
 
-            string data = JsonParser.getJsonLinks(links);
+            string siteLinkData = "{" + JsonParser.getJsonLinks(links) + "}";
 
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "data", siteLinkData },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
+
             string respStr = site.PostDataAndGetResultHTM(
-                site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
+                site.site + site.indexPath + "api.php?action=wbeditentity&format=xml", postData);
 
             if (isError(respStr))
             {
@@ -453,6 +481,8 @@ namespace DotNetDataBot
             }
 
             this.links = links;
+
+            Console.WriteLine("Changed site links");
         }
 
         #endregion
@@ -493,8 +523,17 @@ namespace DotNetDataBot
                 throw new ArgumentNullException("label");
 
             getEditSessionData();
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&language={2}&value={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, label, summary);
+
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "language", lang },
+                { "value", label },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetlabel&format=xml", postData);
@@ -534,12 +573,20 @@ namespace DotNetDataBot
         {
             getEditSessionData();
 
-            string data = JsonParser.getJsonLabels(labels);
+            string labelData = "{" + JsonParser.getJsonLabels(labels) + "}";
 
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "data", labelData },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
+
             string respStr = site.PostDataAndGetResultHTM(
-                site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
+                site.site + site.indexPath + "api.php?action=wbeditentity&format=xml", postData);
 
             if (isError(respStr))
             {
@@ -547,6 +594,8 @@ namespace DotNetDataBot
             }
 
             this.labels = labels;
+
+            Console.WriteLine("Changed labels");
         }
 
         #endregion
@@ -587,8 +636,17 @@ namespace DotNetDataBot
                 throw new ArgumentNullException("description");
 
             getEditSessionData();
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&language={2}&value={3}&summary={4}", id, HttpUtility.UrlEncode(editSessionToken), lang, description, summary);
+
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "language", lang },
+                { "value", description },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetdescription&format=xml", postData);
@@ -628,12 +686,20 @@ namespace DotNetDataBot
         {
             getEditSessionData();
 
-            string data = JsonParser.getJsonDescriptions(descriptions);
+            string descriptionData = "{" + JsonParser.getJsonDescriptions(descriptions) + "}";
 
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "data", descriptionData },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
+
             string respStr = site.PostDataAndGetResultHTM(
-                site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
+                site.site + site.indexPath + "api.php?action=wbeditentity&format=xml", postData);
 
             if (isError(respStr))
             {
@@ -641,6 +707,8 @@ namespace DotNetDataBot
             }
 
             this.descriptions = descriptions;
+
+            Console.WriteLine("Changed descriptions");
         }
 
         #endregion
@@ -752,8 +820,17 @@ namespace DotNetDataBot
                 aliasesData += alias + "|";
             }
             aliasesData = aliasesData.Remove(aliasesData.Length - 1);
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&language={2}&{3}={4}&summary={5}", id, HttpUtility.UrlEncode(editSessionToken), lang, action, aliasesData, summary);
+
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "language", lang },
+                { action, aliasesData },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
 
             string respStr = site.PostDataAndGetResultHTM(
                 site.site + site.indexPath + "api.php?action=wbsetaliases&format=xml", postData);
@@ -807,12 +884,18 @@ namespace DotNetDataBot
         {
             getEditSessionData();
 
-            string data = JsonParser.getJsonAliases(aliases);
+            string aliasesData = "{" + JsonParser.getJsonAliases(aliases) + "}";
 
-            string postData = string.Format(
-                "id={0}&token={1}&bot=bot&data={2}&summary={3}", id, HttpUtility.UrlEncode(editSessionToken), data, summary);
-            string respStr = site.PostDataAndGetResultHTM(
-                site.site + site.indexPath + "/w/api.php?action=wbeditentity&format=xml", postData);
+            Dictionary<string, string> data = new Dictionary<string, string> {
+                { "id", "Q" + id },
+                { "token", editSessionToken },
+                { "bot", "bot" },
+                { "data", aliasesData },
+                { "summary", summary }
+            };
+
+            string postData = getPostData(data);
+            string respStr = site.PostDataAndGetResultHTM(site.site + site.indexPath + "api.php?action=wbeditentity&format=xml", postData);
 
             if (isError(respStr))
             {
@@ -820,6 +903,18 @@ namespace DotNetDataBot
             }
 
             this.aliases = aliases;
+
+            Console.WriteLine("Changed aliases");
+        }
+
+        private string getPostData(Dictionary<string, string> data)
+        {
+            string postData = "";
+            foreach (KeyValuePair<string, string> arg in data)
+            {
+                postData += string.Format("&{0}={1}", HttpUtility.UrlEncode(arg.Key), HttpUtility.UrlEncode(arg.Value));
+            }
+            return postData.Substring(1);
         }
 
         #endregion
@@ -854,7 +949,7 @@ namespace DotNetDataBot
         /// <returns>The id</returns>
         public int GetIdBySitelink(string lang, string sitelink)
         {
-            string url = site.site + site.indexPath + string.Format("api.php?action=wbgetentities&format=xml&sites={0}wiki&titles={1}&props=info", lang, sitelink);
+            string url = site.site + site.indexPath + string.Format("api.php?action=wbgetentities&format=xml&sites={0}wiki&titles={1}&props=info", HttpUtility.UrlEncode(lang), HttpUtility.UrlEncode(sitelink));
             string result = site.PostDataAndGetResultHTM(url, "");
 
             return getId(result);
@@ -870,8 +965,15 @@ namespace DotNetDataBot
             string mark = " id=\"q"; // <entity
             string id = result;
 
-            id = id.Remove(0, id.IndexOf(mark) + mark.Length);
-            id = id.Remove(id.IndexOf("\""));
+            try
+            {
+                id = id.Remove(0, id.IndexOf(mark) + mark.Length);
+                id = id.Remove(id.IndexOf("\""));
+            }
+            catch
+            {
+                throw new WikiBotException("The item does not exist!");
+            }
             //Console.WriteLine("Item Id: " + id);
             int resultId;
             try
@@ -910,10 +1012,12 @@ namespace DotNetDataBot
             string codemark = " code=\"";
             string code = result.Remove(0, result.IndexOf(codemark) + codemark.Length);
             code = code.Remove(code.IndexOf("\""));
+            code = HttpUtility.HtmlDecode(code);
 
             string messagemark = " info=\"";
             string message = result.Remove(0, result.IndexOf(messagemark) + messagemark.Length);
             message = message.Remove(message.IndexOf("\""));
+            message = HttpUtility.HtmlDecode(message);
 
             return new ApiException(code, message);
         }

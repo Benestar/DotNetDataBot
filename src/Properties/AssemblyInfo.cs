@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 [assembly: AssemblyTitle("DotNetDataBot")]
-[assembly: AssemblyDescription("Frameword to work with MediaWiki and Wikibase extension")]
+[assembly: AssemblyDescription("Framework to work with MediaWiki and Wikibase extension")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bene*")]
 [assembly: AssemblyProduct("DotNetDataBot")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]

@@ -1,4 +1,4 @@
-﻿// DotNetDataBot Framework 1.2 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
+﻿// DotNetDataBot Framework 1.3 - bot framework based on Microsoft .NET Framework 2.0 for wikibase projects
 // Distributed under the terms of the MIT (X11) license: http://www.opensource.org/licenses/mit-license.php
 // Copyright © Bene* at http://www.wikidata.org (2012)
 
