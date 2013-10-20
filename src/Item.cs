@@ -220,6 +220,7 @@ namespace DotNetDataBot
                         { "token", editSessionToken },
                         { "bot", "bot" },
                         { "data", itemData },
+                        { "new", "item" },
                         { "summary", summary }
                     };
 
